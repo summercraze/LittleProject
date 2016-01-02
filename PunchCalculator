@@ -1,0 +1,119 @@
+import java.util.Scanner;
+
+public class Foothill
+{  
+   static final int STAMPUSED = 10;
+   
+   public static void main(String[] args) 
+   {
+      Scanner input = new Scanner(System.in);
+      String userInputStr;
+      char purchaseChoice,temp, stampChoice;
+      int stampNumber,totalStamp;
+      boolean quitCondition;
+      stampNumber = 0;
+      totalStamp = 0;
+      quitCondition = false;
+
+      while (!quitCondition)
+      {
+         System.out.print("\nMenu:"+"\nP(process Purchase)"
+            + "\nS(Shut down)");
+
+         //Ask the user for their choice 
+         System.out.print("\nPlease tell me your choice:");
+         userInputStr = input.nextLine();
+         temp = userInputStr.charAt(0);
+         purchaseChoice = Character.toLowerCase(temp);
+
+         //check to see if user entered only P or S
+         if (purchaseChoice != 's' && purchaseChoice != 'p')
+         {
+            System.out.println("You have not entered a valid value"
+               + "\nPlease only type P or S!");
+            continue;
+         }
+         else if (purchaseChoice == 's')
+         {
+            System.out.println("You are exiting the application!"
+               + "\nThank you for your use!");
+            quitCondition = false;
+            break;
+         }
+         else 
+         {
+            //check if total stamp is more than 10
+            if (totalStamp >= 10 ) 
+            {
+               System.out.println("\nCongratulation!You are qualify for "
+                  + "a free yogurt!" +"\nDo you want to use your stamps? "
+                  + "(Y or N)");
+               userInputStr = input.nextLine();
+               temp = userInputStr.charAt(0);
+               stampChoice = Character.toLowerCase(temp);
+               
+               //Check for if the user entered y or n
+               if (stampChoice != 'y' && stampChoice != 'n')
+               {
+                  System.out.println("You have not entered a valid value"
+                     + "\nPlease only type Y or N!");
+                  continue;   
+               }
+               else if (stampChoice == 'y')
+               {
+                  totalStamp -= STAMPUSED;
+                  System.out.println("Here is your free yogurt!Enjoy!"
+                     + "\nYou have used " + STAMPUSED + " stamps."
+                     + "You have " + totalStamp + " stamps left.");
+                  continue; 
+               }
+               else 
+               {
+                  System.out.println("Since you are not using your stamps"
+                     + "\nHow many yogurts would you like to buy?") ;
+                  userInputStr = input.nextLine();
+                  stampNumber = Integer.parseInt(userInputStr);
+                  
+                  // check for stamp number
+                  if (stampNumber > 0 && stampNumber < 35)
+                  {
+                     totalStamp += stampNumber;
+                     System.out.println("You just got " + stampNumber 
+                        + " stamps." + "You have already collected "
+                        + totalStamp + " stamps.");
+                  }
+                  else
+                  {
+                     System.out.println("The number you entered is invalid!"
+                        + "Please try again!");
+                     continue;
+                  }
+               }
+
+            }
+            else 
+            {
+               System.out.println("Hi,how many yogurts would you like to buy?");
+               userInputStr = input.nextLine();
+               stampNumber = Integer.parseInt(userInputStr);
+               
+               //check if the number entered was invalid
+               if (stampNumber > 0 && stampNumber < 35)
+               {
+                  totalStamp += stampNumber;
+                  System.out.println("You just got " + stampNumber + " stamps."
+                     + "You have already collected " + totalStamp
+                     + " stamps.");
+               }
+               else
+               {
+                  System.out.println("The number you entered is invalid!"
+                     + "Please try again!");
+                  continue;
+               }
+            }  
+         }
+      }
+   }
+}
+
