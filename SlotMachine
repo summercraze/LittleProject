@@ -1,0 +1,220 @@
+import java.util.*;
+import java.lang.Math;
+
+public class Foothill
+{
+   static final String SEVEN = "7";
+   static final String BAR = "BAR";
+   static final String SPACE = "SPACE";
+   static final String CHERRIES = "CHERRIES";
+   static final int MIN_BETTING_AMOUNT = 0;
+   static final int MAX_BETTING_AMOUNT = 50;
+   
+   public static void main(String[] args)
+   {
+      int moneyBet,multiplier,totalEarned;
+      TripleString resultPull;
+
+      do
+      {
+         moneyBet = getBet();
+         if (moneyBet != MIN_BETTING_AMOUNT)
+         {
+            resultPull = pull();
+            multiplier = getPayMultiplier (resultPull);
+            totalEarned =  multiplier * moneyBet;
+            display( resultPull,totalEarned);
+         }
+      }while (moneyBet != MIN_BETTING_AMOUNT);
+      System.out.println("Thank you for playing!");   
+   }
+
+   public static int getBet()
+   {  
+      String userInput;
+      int betAmount;
+      Scanner input = new Scanner(System.in); 
+
+      do
+      {
+         System.out.println("\nHow much would you like to bet(1-50) or "
+            + "0 to quit?");
+         userInput = input.nextLine();
+         betAmount = Integer.parseInt(userInput);
+
+      }while (betAmount < MIN_BETTING_AMOUNT || betAmount > MAX_BETTING_AMOUNT);
+      
+      return betAmount;
+   }
+
+   public static TripleString pull() 
+   {
+      TripleString strings;
+      strings = new TripleString();
+
+      strings.setString1(randString());
+      strings.setString2(randString());
+      strings.setString3(randString());
+
+      return strings;
+   }
+
+   private static String randString()
+   {
+
+      String outcome;
+      int randomNumber;
+      final int START_RANGE_BAR = 1;
+      final int END_RANGE_BAR = 40;
+      final int START_RANGE_CHERRIES = 41;
+      final int END_RANGE_CHERRIES = 70;
+      final int START_RANGE_SEVEN = 71;
+      final int END_RANGE_SEVEN = 95;
+      randomNumber = (int) (Math. random() * 100 + 1);
+
+      if (randomNumber >= START_RANGE_BAR && randomNumber <= END_RANGE_BAR)
+      {
+         outcome = BAR;
+      }
+      else if (randomNumber >= START_RANGE_CHERRIES 
+         && randomNumber <= END_RANGE_CHERRIES)
+      {
+         outcome = CHERRIES;
+      }
+      else if (randomNumber >= START_RANGE_SEVEN 
+         && randomNumber <= END_RANGE_SEVEN)
+      {
+         outcome = SEVEN;
+      }
+      else 
+      {
+         outcome = SPACE;
+      }
+      
+      return outcome;
+   }
+
+   public static int getPayMultiplier (TripleString thePull)   
+   {
+      int multiplier;
+      final int LOST_MULTIPLIER = 0;
+      final int TRI_SEVEN_MULTIPLIER = 100;
+      final int TRI_BAR_MULTIPLIER = 50;
+      final int TRI_CHERRY_MULTIPLIER = 30;
+      final int TWO_CHERRY_MULTIPLIER = 15;
+      final int ONE_CHERRY_MULTIPLIER = 5;
+      
+      if (thePull.getString1() == CHERRIES && thePull.getString2() == CHERRIES)
+      {
+         if (thePull.getString3() == CHERRIES)
+         {
+            multiplier = TRI_CHERRY_MULTIPLIER;
+         }
+         else
+         {
+            multiplier = TWO_CHERRY_MULTIPLIER;
+         }
+      }
+      else if (thePull.getString1() == CHERRIES 
+         && thePull.getString2() != CHERRIES)
+      {
+         multiplier = ONE_CHERRY_MULTIPLIER;
+      }
+      else if (thePull.getString1() == BAR && thePull.getString2() == BAR 
+         && thePull.getString3() == BAR )
+      {
+         multiplier = TRI_BAR_MULTIPLIER;
+      }
+      else if (thePull.getString1() == SEVEN && thePull.getString2() == SEVEN 
+         && thePull.getString3() == SEVEN )
+      {
+         multiplier = TRI_SEVEN_MULTIPLIER;
+      }
+      else
+      {
+         multiplier = LOST_MULTIPLIER;
+      }
+      return multiplier;
+   }
+
+   public static void display(TripleString thePull ,int winnings)
+   {
+      final int LOST = 0;
+      
+      System.out.println("Whirrr..and your pulll is..");
+      System.out.println(thePull.getString1() + " " + thePull.getString2() 
+         + " " + thePull.getString3() );
+
+      if (winnings == LOST)
+      { 
+         System.out.println("Sorry you lose!");
+      }
+      else 
+      {
+         System.out.println("Congratulation! You win: " + winnings);
+      }
+   }
+}
+
+
+class TripleString
+{
+   private String string1,string2, string3;
+   public static final int MAX_LEN = 20;
+
+   //default constructor
+   TripleString()
+   {
+      string1 = "";
+      string2 = "";
+      string3 = "";
+   }
+   
+   private boolean validString(String str)
+   {
+      if (str == null || str.length() > MAX_LEN)
+         return false;
+      return true;
+   }
+   
+   //Assessor "set" method
+   public boolean setString1 (String str1)
+   {
+      if ( ! validString(str1))
+         return false;
+      string1 = str1;
+      return true;
+   }
+   
+   public boolean setString2 (String str2)
+   {
+      if ( ! validString(str2))
+         return false;
+      string2 = str2;
+      return true;
+   }
+  
+   public boolean setString3 (String str3)
+   {
+      if ( ! validString(str3))
+         return false;
+      string3 = str3;
+      return true;
+   }
+   
+   //accessor "get" methods
+   public String getString1()
+   {
+      return string1;
+   }
+   
+   public String getString2()
+   {
+      return string2;
+   }
+   
+   public String getString3()
+   {
+      return string3;
+   }
+}
