@@ -1,0 +1,172 @@
+public class Foothill
+{
+   public static void main(String[] args)
+   {
+      final int DEFAULT_BITRATE = 64;
+      final int DEFAULT_PLAY_TIME = 5000;
+      ITunes song1,song2,song3,song4;
+
+      song1 = new ITunes("The Stranger","Billy Joel",500,311000);
+      song1.display();
+
+      song2 = new ITunes("Cheek To Cheek","Billy Joel",36,233000);
+      song2.display();
+
+      song3 = new ITunes("L'Isle joyeuse","Claude Debussy",100,10000);
+      song3.display();
+
+      song4 = new ITunes();
+      song4.display();
+      
+      song1 = new ITunes("The Stranger","Billy Joel",128,311000);
+      song1.display();
+      
+      song2 = new ITunes("Cheek To Cheek","Teddy Wilson",36,233000);
+      song2.display();
+
+      song3 = new ITunes("L'Isle joyeuse","Claude Debussy",226,406000);
+      song3.display();
+
+      song4 = new ITunes("Closer","Ken Arai",320,239000);
+      song4.display();
+
+      song1.setDefault();
+      song1.display();
+
+      song2.setDefault();
+      song2.display();
+
+      song3.setDefault();
+      song3.display();
+
+      song4.setDefault();
+      song4.display();
+
+      song1.setBitRate(0);
+      song1.display();
+      if (song1.getBitRate() != DEFAULT_BITRATE)
+      {
+         System.out.println("Congratulation!"
+            + "You successfully changed Bit Rate!");
+      }
+      System.out.println("Oops!"
+         + " Bit Rate out of range,lets try again");
+
+      song2.setTotalTime(0);
+      song2.display();
+      if (song1.getTotalTime() != DEFAULT_PLAY_TIME)
+      {
+         System.out.println("Congratulation!"
+            + "You successfully changed Total Time!");
+      }
+      System.out.println("Oops!"
+         + " Total Time out of range,lets try again");
+   }
+}
+
+class ITunes
+{
+   public static final int MIN_BITRATE = 64;
+   public static final int MAX_BITRATE = 705;
+   public static final int MIN_STR_LENGTH = 1;
+   public static final int MAX_STR_LENGTH = 128;
+   public static final int MIN_PLAY_TIME = 5000;
+   public static final int MAX_PLAY_TIME = 1000*60*60;
+   public static final int DEFAULT_BITRATE = 64;
+   public static final int DEFAULT_PLAY_TIME = 5000;
+   public static final String DEFAULT_STRING = "(undefined)";
+   
+   private String name;
+   private String artist;
+   private int bitrate;
+   private int totalTime;
+   
+   ITunes()
+   {
+      name = DEFAULT_STRING;
+      artist = DEFAULT_STRING;
+      bitrate = DEFAULT_BITRATE;
+      totalTime = DEFAULT_PLAY_TIME;
+   }
+
+   ITunes(String name,String artist, int bitrate, int totalTime)
+   {
+      if (!setName(name))
+         this.name = DEFAULT_STRING;
+      if (!setArtist(artist))
+         this.artist = DEFAULT_STRING;
+      if (!setBitRate(bitrate))
+         this.bitrate = DEFAULT_BITRATE;
+      if (!setTotalTime(totalTime))
+         this.totalTime = DEFAULT_PLAY_TIME;
+   }
+
+   Boolean setName(String name)
+   {
+      if (name.length() < MIN_STR_LENGTH || name.length() > MAX_STR_LENGTH)
+         return false;
+      this.name = name;
+      return true;
+   }
+
+   Boolean setArtist(String artist)
+   {
+      if (artist.length() < MIN_STR_LENGTH || artist.length() > MAX_STR_LENGTH)
+         return false;
+      this.artist = artist;
+      return true;
+   }
+
+   Boolean setBitRate( int bitrate)
+   {
+      if (bitrate < MIN_BITRATE || bitrate > MAX_BITRATE)
+         return false;
+      this.bitrate = bitrate;
+      return true;
+   }
+
+   Boolean setTotalTime(int totalTime)
+   {
+      if (totalTime < MIN_PLAY_TIME || totalTime > MAX_PLAY_TIME)
+         return false;
+      this.totalTime = totalTime;
+      return true;
+   }
+
+   String getName() {return name;}
+
+   String getArtist() {return artist;}
+
+   int getBitRate() {return bitrate;}
+
+   int getTotalTime() {return totalTime;}
+
+   public String toString()
+   {
+      String outputString = " ";
+      String name = getName ();
+      String artist = getArtist();
+      int bitRate = getBitRate();
+      int totalTime = getTotalTime();
+      
+      String strBitRate = Integer.toString(bitRate);
+      String strTotalTime = Integer.toString(totalTime);
+      
+      outputString = "Name:" + name + "\nArtist:" + artist + "\nBit Rate:"
+         + strBitRate + "\nTime:" + strTotalTime + "\n";
+      return outputString;
+   }
+
+   public void setDefault()
+   {
+      name = DEFAULT_STRING;
+      artist = DEFAULT_STRING;
+      bitrate = DEFAULT_BITRATE;
+      totalTime = DEFAULT_PLAY_TIME;
+   }
+
+   public void display()
+   {
+      System.out.println(toString());
+   }
+}
